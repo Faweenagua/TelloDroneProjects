@@ -3,7 +3,8 @@ import numpy as np
 
 
 cap = cv2.VideoCapture(0)
-hsvValues = [0,0,0,179,57,255]
+# hsvValues = [0,0,0,179,57,255]
+hsvValues = [9,0,41,179,237,143]
 sensors = 3
 whiteThreshold = 0.2
 width, height = 480, 360
@@ -25,6 +26,8 @@ def getContours(imgThresh, img):
     cx = 0
     contours, hierarchy = cv2.findContours(imgThresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
+    cv2.drawContours(img, contours, -1, (255, 145, 78), 7)
+
     if len(contours) != 0:
         biggest = max(contours, key=cv2.contourArea)
         x,y,w,h = cv2.boundingRect(biggest)
@@ -32,7 +35,6 @@ def getContours(imgThresh, img):
         cx = x + w//2
         cy = y + h//2
 
-        # cv2.drawContours(img, biggest, -1, (255, 145, 78), 7)
         # cv2.rectangle(img, (x,y), (x+w,y+h), (255, 145, 78), cv2.FILLED)
         # cv2.circle(img, (cx,cy), 10, (14,45,145), cv2.FILLED)
 
@@ -89,8 +91,8 @@ while True:
 
     imgThresh =  thresholding(img)
     cx = getContours(imgThresh, img)
-    senOut = getSensorOutput(imgThresh, sensors)
-    sendCommands(senOut, cx)
+    # senOut = getSensorOutput(imgThresh, sensors)
+    # sendCommands(senOut, cx)
 
 
     cv2.imshow("Output", img)
